@@ -989,7 +989,7 @@ void StratumServer::upEventCallback(struct bufferevent *bev,
 
     // do subscribe
     string s = Strings::Format("{\"id\":1,\"method\":\"mining.subscribe\""
-                               ",\"params\":[\"%s\"]}\n", BTCCOM_MINER_AGENT);
+                               ",\"params\":[\"%s/%s\"]}\n", BTCCOM_MINER_AGENT,up->userName_.c_str());
     up->sendData(s);
     return;
   }
