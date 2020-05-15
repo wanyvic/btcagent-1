@@ -1,14 +1,14 @@
 {
     "agent_type": "btc",
-    "always_keep_downconn": false,
+    "always_keep_downconn":true,
     "disconnect_when_lost_asicboost": true,
     "use_ip_as_worker_name": false,
-    "submit_response_from_server": false,
+    "submit_response_from_server": true,
     "agent_listen_ip": "0.0.0.0",
     "agent_listen_port": 3333,
     "pools": [
-        ["cn.ss.btc.com", 1800, "testpool"],
-        ["cn.ss.btc.com", 443, "testpool"],
-        ["cn.ss.btc.com", 3333, "testpool"]
+        ["bn.huobipool.com", 1800, "testpool"],
+        ["bn.huobipool.com", 443, "testpool"],
+        ["bn.huobipool.com", 3333, "testpool"]
     ]
 }
