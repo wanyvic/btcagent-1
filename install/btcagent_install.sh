@@ -27,6 +27,7 @@ if [ "x$CACHE" = "x" ];then
 fi
 tar zxvf huobi-btcagent.tar.gz
 sudo dpkg -i huobi-btcagent*.deb
+sudo apt-get update
 sudo apt-get -f install -y
 sudo rm -rf /etc/supervisor/conf.d/btcagent-single_user.conf
 sudo apt-get install -y supervisor
