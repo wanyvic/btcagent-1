@@ -61,6 +61,6 @@ redirect_stderr=true
 stdout_logfile_backups=5
 stdout_logfile=/var/log/btcagent/huobi-agent-$VERSION-$USERNAME/agent_stdout.log
 EOF
-sudo supervisorctl reload
+sudo supervisorctl update
 sudo service supervisor restart
 netstat -antp | grep btcagent
