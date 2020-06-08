@@ -38,6 +38,8 @@ BtcAgent是定制的高效的专用矿池代理系统。其采用了自定义[�
 apt-get update
 apt-get install -y build-essential cmake git
 
+#可选 编译静态程序
+#apt-get install -y libgflags-dev
 #
 # install libevent
 #
@@ -66,6 +68,8 @@ git clone https://github.com/btccom/btcagent.git
 cd btcagent
 mkdir -p build && cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
+#编译静态程序
+cmake -DCMAKE_BUILD_TYPE=Release -DLIBEVENT_LINK_STATIC=ON -DGLOG_LINK_STATIC=ON ..
 make
 
 # 拷贝配置文件

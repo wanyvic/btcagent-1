@@ -31,8 +31,10 @@ Note:
 
 ```
 apt-get update
-apt-get install -y build-essential cmake git
+apt-get install -y build-essential cmake git 
 
+#option build static release
+#apt-get install -y libgflags-dev
 #
 # install libevent
 #
@@ -61,6 +63,8 @@ git clone https://github.com/btccom/btcagent.git
 cd btcagent
 mkdir -p build && cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
+#build static release
+cmake -DCMAKE_BUILD_TYPE=Release -DLIBEVENT_LINK_STATIC=ON -DGLOG_LINK_STATIC=ON ..
 make
 cp ../src/agent/agent_conf.json .
 mkdir -p log_btcagent

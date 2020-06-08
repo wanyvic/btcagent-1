@@ -82,7 +82,9 @@ unique_ptr<T> make_unique(Args&&... args)
 // WARNING: DO NOT CHANGE THE NAME.
 // the version could be changed like: "btccom-agent/xx.xx.xx-edition"
 //
-#define BTCCOM_MINER_AGENT   "btccom-agent/1.0.0-su"
+#define AGENT_PREFIX         "btccom-agent"
+#define HUOBI_MINER_AGENT    AGENT_PREFIX"/huobi"
+#define BTCCOM_MINER_AGENT   HUOBI_MINER_AGENT"-1.0.1-editon"
 
 #if defined(SUPPORT_GLOG) && defined(GLOG_TO_STDOUT)
 // Print logs to stdout with glog
