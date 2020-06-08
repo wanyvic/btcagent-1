@@ -195,14 +195,14 @@ IF(POOLAGENT__GENERATE_DEB_PACKAGE)
 
   # generate deb package by CPack
   set(CPACK_GENERATOR "DEB")
-  set(CPACK_PACKAGE_NAME "btcagent-single_user")
+  set(CPACK_PACKAGE_NAME "huobi-btcagent-single_user")
   set(CPACK_DEBIAN_PACKAGE_MAINTAINER "YihaoPeng yihao.peng@bitmain.com")
 
   SET(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_SOURCE_DIR}/install/debian-control/postinst")
 
   # version
   SET(CPACK_PACKAGE_VERSION_MAJOR "1")
-  SET(CPACK_PACKAGE_VERSION_MINOR "0")
+  SET(CPACK_PACKAGE_VERSION_MINOR "1")
   SET(CPACK_PACKAGE_VERSION_PATCH "0")
 
   # dependencies
