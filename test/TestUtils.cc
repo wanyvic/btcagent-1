@@ -63,6 +63,7 @@ TEST(Utils, Strings_parseConfJson) {
     bool submitResponseFromServer = false;
     string fixedWorkerName;
     std::vector<PoolConf> poolConfs;
+    int8_t upSessionCount;
 
     string line = R"EOF({
       "agent_listen_ip": "0.0.0.0",
@@ -74,7 +75,7 @@ TEST(Utils, Strings_parseConfJson) {
 
     ASSERT_EQ(parseConfJson(line, agentType, listenIP, listenPort, poolConfs,
       alwaysKeepDownconn, disconnectWhenLostAsicBoost,
-      useIpAsWorkerName, submitResponseFromServer, fixedWorkerName), true);
+      useIpAsWorkerName, submitResponseFromServer, fixedWorkerName, upSessionCount), true);
 
     ASSERT_EQ(agentType, "");
     ASSERT_EQ(alwaysKeepDownconn, false);
@@ -99,6 +100,7 @@ TEST(Utils, Strings_parseConfJson) {
     bool useIpAsWorkerName = false;
     bool submitResponseFromServer = false;
     string fixedWorkerName;
+    int8_t upSessionCount;
 
     std::vector<PoolConf> poolConfs;
     string line = R"EOF({
@@ -110,6 +112,7 @@ TEST(Utils, Strings_parseConfJson) {
       "agent_listen_ip": "127.0.0.1",
       "agent_listen_port": 1800,
       "fixed_worker_name": "myworker",
+      "up_session_count": 5,
       "pools": [
         ["cn.ss.btc.com", 1800, "kevin"],
         ["us.ss.btc.com", 3333, "kevinus"]
@@ -117,7 +120,7 @@ TEST(Utils, Strings_parseConfJson) {
     })EOF";
     ASSERT_EQ(parseConfJson(line, agentType, listenIP, listenPort, poolConfs,
       alwaysKeepDownconn, disconnectWhenLostAsicBoost,
-      useIpAsWorkerName, submitResponseFromServer, fixedWorkerName), true);
+      useIpAsWorkerName, submitResponseFromServer, fixedWorkerName, upSessionCount), true);
 
     ASSERT_EQ(agentType, "btc");
     ASSERT_EQ(alwaysKeepDownconn, true);
@@ -127,6 +130,7 @@ TEST(Utils, Strings_parseConfJson) {
     ASSERT_EQ(listenIP, "127.0.0.1");
     ASSERT_EQ(listenPort, "1800");
     ASSERT_EQ(fixedWorkerName, "myworker");
+    ASSERT_EQ(upSessionCount, 5);
 
     ASSERT_EQ(poolConfs.size(), 2u);
 

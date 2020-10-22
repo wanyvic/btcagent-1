@@ -1,3 +1,9 @@
+###
+ # @Date: 2020-10-21 14:29:59
+ # @LastEditors: liuruihao@huobi.com
+ # @LastEditTime: 2020-10-21 14:46:46
+ # @FilePath: btcagent_install.sh
+### 
 #/bin/bash
 
 printf "huobi-agent代理安装:\n"
@@ -9,11 +15,13 @@ USERNAME=""
 REGION=""
 PORT=""
 CACHE=""
-while getopts 'a:k:u:r:p:h:' c
+INDEX=""
+while getopts 'a:k:n:u:r:p:h:' c
 do
   case $c in
     a) AGENT_TYPE="$OPTARG" ;;
     k) KEEP_DOWNLOADCONNECTION="$OPTARG" ;;
+    n) INDEX="$OPTARG" ;;
     u) USERNAME="$OPTARG" ;;
     r) REGION="$OPTARG" ;;
     p) PORT="$OPTARG" ;;
@@ -26,7 +34,7 @@ if [ "x$USERNAME" = "x" ] || [ "x$REGION" = "x" ] || [ "x$PORT" = "x" ]; then
     exit
 fi
 if [ "x$CACHE" = "x" ];then
-    wget https://github.com/wanyvic/btcagent-1/releases/download/1.1.0/huobi-btcagent-single_user-1.1.0-Linux.deb  --no-check-certificate
+    curl -LO https://github.com/wanyvic/btcagent-1/releases/download/huobi-btcagent-1.1.0/huobi-btcagent-single_user-1.1.0-Linux.deb
 fi
 sudo dpkg -i huobi-btcagent*.deb
 sudo apt-get update
@@ -34,7 +42,7 @@ sudo apt-get -f install -y
 sudo rm -rf /etc/supervisor/conf.d/btcagent-single_user.conf
 sudo apt-get install -y supervisor
 
-cat >/etc/btcagent/huobi-agent-$VERSION-$USERNAME.json << EOF
+cat >/etc/btcagent/huobi-agent-$VERSION-$USERNAME-$INDEX.json << EOF
 {
     "agent_type": $AGENT_TYPE,
     "always_keep_downconn":$KEEP_DOWNLOADCONNECTION,
@@ -50,11 +58,11 @@ cat >/etc/btcagent/huobi-agent-$VERSION-$USERNAME.json << EOF
     ]
 }
 EOF
-sudo mkdir -p /var/log/btcagent/huobi-agent-$VERSION-$USERNAME
-cat >/etc/supervisor/conf.d/huobi-agent-$VERSION-$USERNAME.conf << EOF 
-[program:huobi-agent-$VERSION-$USERNAME]
-directory=/var/log/btcagent/huobi-agent-$VERSION-$USERNAME
-command=/usr/bin/btcagent -c /etc/btcagent/huobi-agent-$VERSION-$USERNAME.json -l /var/log/btcagent/huobi-agent-$VERSION-$USERNAME
+sudo mkdir -p /var/log/btcagent/huobi-agent-$VERSION-$USERNAME-$INDEX
+cat >/etc/supervisor/conf.d/huobi-agent-$VERSION-$USERNAME-$INDEX.conf << EOF 
+[program:huobi-agent-$VERSION-$USERNAME-$INDEX]
+directory=/var/log/btcagent/huobi-agent-$VERSION-$USERNAME-$INDEX
+command=/usr/bin/btcagent -c /etc/btcagent/huobi-agent-$VERSION-$USERNAME-$INDEX.json -l /var/log/btcagent/huobi-agent-$VERSION-$USERNAME-$INDEX
 autostart=true
 autorestart=true
 startsecs=3
@@ -62,8 +70,8 @@ startretries=2147483647
 
 redirect_stderr=true
 stdout_logfile_backups=5
-stdout_logfile=/var/log/btcagent/huobi-agent-$VERSION-$USERNAME/agent_stdout.log
+stdout_logfile=/var/log/btcagent/huobi-agent-$VERSION-$USERNAME-$INDEX/agent_stdout.log
 EOF
 sudo supervisorctl update
-sudo service supervisor restart
-netstat -antp | grep btcagent
+sleep 2s
+sudo netstat -antp| grep LISTEN| grep $PORT

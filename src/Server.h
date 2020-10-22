@@ -208,7 +208,7 @@ private:
   // disconnect, just some miners which belong to this connection(UpStratumClient)
   // will reconnect instead of all miners reconnect to the Agent.
   //
-  static const int8_t kUpSessionCount_ = 5;  // MAX is 127
+  int8_t kUpSessionCount_ = 5;  // MAX is 127
   bool running_ = false;
 
   string   listenIP_;
@@ -250,7 +250,7 @@ public:
   SessionIDManager sessionIDManager_;
 
 public:
-  StratumServer(const string &listenIP, const uint16_t listenPort);
+  StratumServer(const string &listenIP, const uint16_t listenPort, const int8_t upSessionCount);
   virtual ~StratumServer();
 
   UpStratumClient *createUpSession(const int8_t idx);

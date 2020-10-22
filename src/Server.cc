@@ -547,8 +547,8 @@ void StratumSession::recvData(struct evbuffer *buf) {
 }
 
 /////////////////////////////////// StratumServer //////////////////////////////
-StratumServer::StratumServer(const string &listenIP, const uint16_t listenPort)
-: listenIP_(listenIP), listenPort_(listenPort)
+StratumServer::StratumServer(const string &listenIP, const uint16_t listenPort, const int8_t upSessionCount)
+: listenIP_(listenIP), listenPort_(listenPort), kUpSessionCount_(upSessionCount)
 {
   upSessions_    .resize(kUpSessionCount_, NULL);
   upSessionCount_.resize(kUpSessionCount_, 0);

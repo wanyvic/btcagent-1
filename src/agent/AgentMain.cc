@@ -111,6 +111,7 @@ int main(int argc, char **argv) {
 	bool disconnectWhenLostAsicBoost = true;
   bool useIpAsWorkerName = false;
   bool submitResponseFromServer = false;
+  int8_t upSessionCount = 5;
   string fixedWorkerName;
 
     // get conf json string
@@ -119,7 +120,7 @@ int main(int argc, char **argv) {
                         std::istreambuf_iterator<char>());
     if (!parseConfJson(agentJsonStr, agentType, listenIP, listenPort, poolConfs,
                        alwaysKeepDownconn, disconnectWhenLostAsicBoost, useIpAsWorkerName,
-                       submitResponseFromServer, fixedWorkerName)) {
+                       submitResponseFromServer, fixedWorkerName, upSessionCount)) {
       LOG(ERROR) << "parse json config file failure" << std::endl;
       return 1;
     }
@@ -128,12 +129,12 @@ int main(int argc, char **argv) {
               << (alwaysKeepDownconn ? "Enabled" : "Disabled");
 
     if (agentType == "eth") {
-      gStratumServer = new StratumServerEth(listenIP, atoi(listenPort.c_str()));
+      gStratumServer = new StratumServerEth(listenIP, atoi(listenPort.c_str()), upSessionCount);
     } else {
       LOG(INFO) << "[OPTION] Disconnect if a miner lost its AsicBoost mid-way: "
                 << (disconnectWhenLostAsicBoost ? "Enabled" : "Disabled");
 
-      gStratumServer = new StratumServerBitcoin(listenIP, atoi(listenPort.c_str()));
+      gStratumServer = new StratumServerBitcoin(listenIP, atoi(listenPort.c_str()), upSessionCount);
     }
 
     // add pools

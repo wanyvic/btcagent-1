@@ -6,6 +6,7 @@
     "submit_response_from_server": false,
     "agent_listen_ip": "0.0.0.0",
     "agent_listen_port": 3333,
+    "up_session_count": 5,
     "pools": [
         ["bn.huobipool.com", 1800, "testpool"],
         ["bn.huobipool.com", 443, "testpool"],
