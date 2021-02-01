@@ -471,11 +471,15 @@ bool UpStratumClient::submitShare(const string &json, uint16_t sessionId, const 
 }
 
 bool UpStratumClient::isAvailable() {
-  const uint32_t kJobExpiredTime = 60 * 5;  // seconds
+  const uint32_t kJobExpiredTime = server_->jobExpiredTime_;  // seconds
 
   if (state_ == UP_AUTHENTICATED &&
-      poolDefaultDiff_ != 0 &&
-      lastJobReceivedTime_ + kJobExpiredTime > (uint32_t)time(NULL)) {
+      poolDefaultDiff_ != 0) {
+    auto expiredTime = (uint32_t)time(NULL)) - lastJobReceivedTime_;
+    if (expiredTime > kJobExpiredTime) {
+      LOG(INFO) << "UpStratumClient job expired, " << expiredTime << std::endl;
+      return false;
+    }
     return true;
   }
   return false;
@@ -609,12 +613,13 @@ UpStratumClient * StratumServer::createUpSession(int8_t idx) {
 
 bool StratumServer::run(bool alwaysKeepDownconn, bool disconnectWhenLostAsicBoost,
   bool useIpAsWorkerName, bool submitResponseFromServer,
-  const string &fixedWorkerName) {
+  const string &fixedWorkerName uint32_t jobExpiredTime) {
   alwaysKeepDownconn_ = alwaysKeepDownconn;
   disconnectWhenLostAsicBoost_ = disconnectWhenLostAsicBoost;
   useIpAsWorkerName_ = useIpAsWorkerName;
   submitResponseFromServer_ = submitResponseFromServer;
   fixedWorkerName_ = fixedWorkerName;
+  jobExpiredTime_ = jobExpiredTime;
 
   if (!fixedWorkerName_.empty()) {
     LOG(INFO) << "[OPTION] Fixed worker name enabled, all worker name will be replaced to " << fixedWorkerName_ << " on the server.";

@@ -110,7 +110,7 @@ bool parseConfJson(const string &jsonStr,
                    std::vector<PoolConf> &poolConfs,
                    bool &alwaysKeepDownconn, bool &disconnectWhenLostAsicBoost,
                    bool &useIpAsWorkerName, bool &submitResponseFromServer,
-                   string &fixedWorkerName, int8_t &upSessionCount) {
+                   string &fixedWorkerName, int8_t &upSessionCount, uint32_t &jobExpiredTime) {
   jsmn_parser p;
   jsmn_init(&p);
   jsmntok_t t[64]; // we expect no more than 64 tokens
@@ -198,6 +198,10 @@ bool parseConfJson(const string &jsonStr,
     }
     else if (jsoneq(c, &t[i], "up_session_count") == 0) {
       upSessionCount = atoi(getJsonStr(c, &t[i+1]).c_str());
+      i++;
+    }
+    else if (jsoneq(c, &t[i], "job_expired_second") == 0) {
+      jobExpiredTime = atoi(getJsonStr(c, &t[i+1]).c_str());
       i++;
     }
   }

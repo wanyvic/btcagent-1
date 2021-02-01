@@ -215,6 +215,8 @@ private:
   uint16_t listenPort_ = 0;
   vector<PoolConf> upPools_;
 
+  uint32_t jobExpiredTime_ = 0;
+
   struct event *upEvTimer_ = nullptr;
 
   // libevent2
@@ -299,7 +301,7 @@ public:
 
   bool run(bool alwaysKeepDownconn, bool disconnectWhenLostAsicBoost,
     bool useIpAsWorkerName, bool submitResponseFromServer,
-    const string &fixedWorkerName);
+    const string &fixedWorkerName, uint32_t jobExpiredTime);
   void stop();
 };
 
