@@ -215,8 +215,6 @@ private:
   uint16_t listenPort_ = 0;
   vector<PoolConf> upPools_;
 
-  uint32_t jobExpiredTime_ = 0;
-
   struct event *upEvTimer_ = nullptr;
 
   // libevent2
@@ -250,6 +248,7 @@ protected:
 
 public:
   SessionIDManager sessionIDManager_;
+  uint32_t jobExpiredTime_ = 0;
 
 public:
   StratumServer(const string &listenIP, const uint16_t listenPort, const int8_t upSessionCount);

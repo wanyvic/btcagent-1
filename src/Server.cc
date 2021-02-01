@@ -475,7 +475,7 @@ bool UpStratumClient::isAvailable() {
 
   if (state_ == UP_AUTHENTICATED &&
       poolDefaultDiff_ != 0) {
-    auto expiredTime = (uint32_t)time(NULL)) - lastJobReceivedTime_;
+    auto expiredTime = (uint32_t)time(NULL) - lastJobReceivedTime_;
     if (expiredTime > kJobExpiredTime) {
       LOG(INFO) << "UpStratumClient job expired, " << expiredTime << std::endl;
       return false;
@@ -613,7 +613,7 @@ UpStratumClient * StratumServer::createUpSession(int8_t idx) {
 
 bool StratumServer::run(bool alwaysKeepDownconn, bool disconnectWhenLostAsicBoost,
   bool useIpAsWorkerName, bool submitResponseFromServer,
-  const string &fixedWorkerName uint32_t jobExpiredTime) {
+  const string &fixedWorkerName, uint32_t jobExpiredTime) {
   alwaysKeepDownconn_ = alwaysKeepDownconn;
   disconnectWhenLostAsicBoost_ = disconnectWhenLostAsicBoost;
   useIpAsWorkerName_ = useIpAsWorkerName;
